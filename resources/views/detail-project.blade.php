@@ -135,93 +135,67 @@
     </header>
     <!-- START HEADER -->
 
-    <!-- START SECTION BANNER -->
+    <!-- START SECTION BREADCRUMB -->
     <section class="breadcrumb_section bg_gray">
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="page-title">
-                        <h1>Blog Single post</h1>
+                        <h1>Project Detail</h1>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-sm-end">
-                            <li class="breadcrumb-item">
-                                <a href="#">Home</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Blog Single post
-                            </li>
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Project Detail</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </section>
-    <!-- END SECTION BANNER -->
+    <!-- END SECTION BREADCRUMB -->
 
-    <!-- START SECTION BLOG -->
+    <!-- START SECTION PORTFOLIO DETAIL -->
     <section>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="single_post">
-                        <div class="blog_img">
-                            <a href="#">
-                                <img src="{{asset('template/assets/images/blog_img1.jpg" alt="blog_img1')}}" />
-                            </a>
+                    <div class="carousel_slider owl-carousel owl-theme" data-margin="20" data-dots="false" data-loop="true" data-nav="true" data-autoplay="true" data-items="1">
+                        <div class="item">
+                            <img src="{{asset('template/assets/images/portfolio_img1.jpg')}}" alt="portfolio_img1" />
                         </div>
-                        <div class="blog_content">
-                            <div class="blog_text">
-                                <h2>NAMA PROKJECT</h2>
-                                <ul class="list_none blog_meta">
-                                    <li>
-                                        <a href="#"><i class="ion-calendar"></i>
-                                            tanggal project</a>
-                                    </li>
-                                </ul>
-                                <p>
-                                    dekripsi project Lorem ipsum dolor, sit
-                                    amet consectetur adipisicing elit. Id
-                                    doloremque rerum amet incidunt, quisquam
-                                    itaque. Repudiandae odit placeat
-                                    delectus iusto?
-                                </p>
-                            </div>
+                        <div class="item">
+                            <img src="{{asset('template/assets/images/portfolio_img2.jpg')}}" alt="portfolio_img2" />
+                        </div>
+                        <div class="item">
+                            <img src="{{asset('template/assets/images/portfolio_img3.jpg')}}" alt="portfolio_img3" />
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 mt-lg-0 mt-4">
-                    <div class="sidebar p-3 border rounded">
-                        <div class="widget">
-                            <h5 class="widget_title">Detail Project</h5>
-                            <hr />
-                            <ul class="list-unstyled">
-                                <li>
-                                    <strong>Nama Project:</strong>
-                                    <span id="project-name">-</span>
-                                </li>
-                                <li>
-                                    <strong>Klien:</strong>
-                                    <span id="project-client">-</span>
-                                </li>
-                                <li>
-                                    <strong>Tanggal:</strong>
-                                    <span id="project-date">-</span>
-                                </li>
-                                <li>
-                                    <strong>Kategori:</strong>
-                                    <span id="project-category">-</span>
-                                </li>
-                            </ul>
+                <div class="col-lg-4">
+                    <ul class="list_none portfolio_info_box">
+                        <li><span class="text-uppercase">Nama Project</span>Martyn Vorm</li>
+                        <li><span class="text-uppercase">Date</span>Aprile 2018</li>
+                        <li><span class="text-uppercase">Category</span>Design, Branding</li>
+                        <li><span class="text-uppercase">Tanggal Project</span>12 maret 2023</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="pf_content">
+                        <div class="heading_s1">
+                            <h2>Judul Project</h2>
                         </div>
+                        <p>DESKRIPSI PROJECT Nam eget neque pellentesque efficitur neque at, ornare orci. Vestibulum ligula orci volutpat id aliquet eget, consectetur eget ante. Duis pharetra for nec rhoncus felis sagittis nec amet ultricies lorem.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- END SECTION BLOG -->
+    <!-- END SECTION PORTFOLIO DETAIL -->
 
     <!-- START FOOTER SECTION -->
     <footer class="bg_gray">
