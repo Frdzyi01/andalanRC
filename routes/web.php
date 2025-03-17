@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [App\Http\Controllers\LandingController::class, 'index'])->name('landingpage');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/setting/projects', [App\Http\Controllers\ProjectController::class, 'index'])->name('setting.projects');
+Route::get('/projects/data', [App\Http\Controllers\ProjectController::class, 'getData'])->name('projects.data');
+Route::post('/projects/save', [App\Http\Controllers\ProjectController::class, 'saveData'])->name('projects.save');
+Route::get('/projects/{id}', [App\Http\Controllers\ProjectController::class, 'getProject']);
+Route::delete('/projects/{id}', [App\Http\Controllers\ProjectController::class, 'deleteData'])->name('projects.delete');
+
