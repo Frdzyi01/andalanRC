@@ -65,9 +65,6 @@
                             <div class="form-group">
                                 <label for="category">Category <span class="text-danger">*</span></label>
                                 <select class="form-control" id="category" name="category[]" multiple="multiple" required>
-                                    <option value="branding">Branding</option>
-                                    <option value="web-design">Web Design</option>
-                                    <option value="development">Development</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -126,9 +123,6 @@
                             <div class="form-group">
                                 <label for="edit_category">Category</label>
                                 <select class="form-control" id="edit_category" name="category[]" multiple="multiple" required>
-                                    <option value="branding">Branding</option>
-                                    <option value="web-design">Web Design</option>
-                                    <option value="development">Development</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -162,13 +156,42 @@
         $('#category').select2({
             placeholder: "Select categories",
             allowClear: true,
-            width: '100%'
+            width: '100%',
+            ajax: {
+                url: "{{ route('categories.list') }}",
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.slug,
+                            text: item.name
+                        }))
+                    };
+                }
+            }
         });
 
-        $('#edit_category').select2({
-            placeholder: "Select categories",
-            allowClear: true,
-            width: '100%'
+        $.ajax({
+            url: "{{ route('categories.list') }}", // Pastikan route ini ada di backend
+            type: 'GET',
+            success: function (response) {
+                let categorySelect = $('#edit_category');
+
+                // Hapus opsi lama sebelum menambahkan yang baru
+                categorySelect.empty();
+
+                // Tambahkan opsi kategori ke select
+                response.forEach(category => {
+                    categorySelect.append(new Option(category.name, category.slug));
+                });
+
+                // Inisialisasi Select2
+                categorySelect.select2({
+                    placeholder: "Select categories",
+                    allowClear: true,
+                    width: '100%'
+                });
+            }
         });
 
         let table = $('#projectsTable').DataTable({
