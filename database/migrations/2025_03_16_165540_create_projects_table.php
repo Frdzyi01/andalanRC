@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('client');
             $table->date('date');
             $table->string('category');
-            $table->string('link');
-            $table->text('description');
+            $table->string('link')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

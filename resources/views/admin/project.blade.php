@@ -49,21 +49,21 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">Project Name</label>
+                                <label for="name">Project Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" required>
                             </div>
                             <div class="form-group">
-                                <label for="client">Client</label>
+                                <label for="client">Client <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="client" name="client" required>
                             </div>
                             <div class="form-group">
-                                <label for="date">Date</label>
+                                <label for="date">Date <span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" id="date" name="date" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="category">Category</label>
+                                <label for="category">Category <span class="text-danger">*</span></label>
                                 <select class="form-control" id="category" name="category[]" multiple="multiple" required>
                                     <option value="branding">Branding</option>
                                     <option value="web-design">Web Design</option>
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label for="description">Description <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Save Project</button>
