@@ -19,4 +19,9 @@ class Project extends Model
         'link',
         'description',
     ];
+
+    public function images()
+    {
+        return $this->hasMany(ProjectImage::class);
+    }
 }

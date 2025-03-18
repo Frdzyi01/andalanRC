@@ -28,7 +28,34 @@
             display: flex;
             align-items: center;
         }
+        
+        .image-preview {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
 
+        .image-preview img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .image-preview button {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>

@@ -10,8 +10,9 @@ class LandingController extends Controller
     //
     public function index()
     {
-        $projects = Project::all(); // Ambil semua project
-        return view('index', compact('projects')); // Kirim data ke Blade
+        $projects = Project::with('images')->get();
+    
+        return view('index', compact('projects'));
     }
 
 }
