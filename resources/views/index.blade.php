@@ -86,10 +86,7 @@
                             <a class="nav-link page-scroll" href="#portfolio">Portfolio</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="#experience">Experience</a>
-                        </li>
-                        <li>
-                            <a class="nav-link page-scroll" href="#blog">blog</a>
+                            <a class="nav-link page-scroll" href="#team">Team</a>
                         </li>
                         <li>
                             <a class="nav-link page-scroll" href="#contact">contact</a>
@@ -110,41 +107,6 @@
                         </div>
                         @endif
 
-                        <li class="dropdown">
-                            <a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu dropdown-reverse">
-                                <ul>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="portfolio-detail-dark.html">portfolio detail dark</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="portfolio-detail-sidemenu-dark.html">portfolio detail sidemenu
-                                            dark</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="portfolio-detail-sidemenu-white.html">portfolio detail sidemenu
-                                            white</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="portfolio-detail-white.html">portfolio detail white</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="blog-detail-dark.html">blog
-                                            detail dark</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="blog-detail-sidemenu-dark.html">blog detail sidemenu dark</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="blog-detail-sidemenu-white.html">blog detail sidemenu white</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item nav-link nav_item" href="blog-detail-white.html">blog
-                                            detail white</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </nav>
@@ -174,7 +136,7 @@
                                 30 tahun dalam perencanaan infrastruktur dan manajemen proyek.
                                 <!-- <span id="typed-text" class="text_default"></span> -->
                             </h4>
-                            <a href="#" class="btn btn-default rounded-0 animation" data-animation="fadeInUp" data-animation-delay="0.05s">Download CV</a>
+                            <a href="#" class="btn btn-default rounded-0 animation" data-animation="fadeInUp" data-animation-delay="0.05s">See More</a>
                             <a href="#" class="btn btn-outline-white rounded-0 animation" data-animation="fadeInUp" data-animation-delay="0.05s">Get In Touch</a>
                         </div>
                     </div>
@@ -258,6 +220,7 @@
                                 </p>
                             </div>
                         </div>
+                        <a href="#" class="btn btn-default rounded-0 animation" data-animation="fadeInUp" data-animation-delay="0.05s">See More</a>
                     </div>
                 </div>
             </div>
@@ -444,7 +407,7 @@
                     <ul class="list_none grid_filter animation" data-animation="fadeInUp" data-animation-delay="0.04s">
                         <li><a href="#" class="current" data-filter="*">all</a></li>
                         @foreach($categories as $category)
-                            <li><a href="#" data-filter=".{{ $category->slug }}">{{ $category->name }}</a></li>
+                        <li><a href="#" data-filter=".{{ $category->slug }}">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -455,33 +418,31 @@
                         <!-- <li class="grid-sizer"></li> -->
                         <!-- START PORTFOLIO ITEM -->
                         @foreach($projects as $project)
-                            <li class="grid_item {{ strtolower($project->category) }}">
-                                <div class="portfolio_item">
-                                    <a href="#" class="image_link">
-                                        @if($project->images->isNotEmpty()) 
-                                            <img src="{{ asset('storage/' . $project->images->first()->image_path) }}" alt="image"
-                                                style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
-                                        @else
-                                            <img src="{{ asset('template/assets/images/portfolio_item_small1.jpg') }}" alt="No Image"
-                                                style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
+                        <li class="grid_item {{ strtolower($project->category) }}">
+                            <div class="portfolio_item">
+                                <a href="#" class="image_link">
+                                    @if($project->images->isNotEmpty())
+                                    <img src="{{ asset('storage/' . $project->images->first()->image_path) }}" alt="image" style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
+                                    @else
+                                    <img src="{{ asset('template/assets/images/portfolio_item_small1.jpg') }}" alt="No Image" style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
+                                    @endif
+                                </a>
+                                <div class="portfolio_content">
+                                    <div class="link_container">
+                                        @if($project->images->isNotEmpty())
+                                        <a href="{{ asset('storage/' . $project->images->first()->image_path) }}" class="image_popup">
+                                            <i class="ion-image"></i>
+                                        </a>
                                         @endif
-                                    </a>
-                                    <div class="portfolio_content">
-                                        <div class="link_container">
-                                            @if($project->images->isNotEmpty())
-                                                <a href="{{ asset('storage/' . $project->images->first()->image_path) }}" class="image_popup">
-                                                    <i class="ion-image"></i>
-                                                </a>
-                                            @endif
-                                            <a href="{{ route('projects.detail', $project->id) }}"><i class="ion-plus"></i></a>
-                                        </div>
-                                        <h5>
-                                            <a href="{{ route('projects.detail', $project->id) }}">{{ $project->name }}</a>
-                                        </h5>
-                                        <p>{{ $project->category }}</p>
+                                        <a href="{{ route('projects.detail', $project->id) }}"><i class="ion-plus"></i></a>
                                     </div>
+                                    <h5>
+                                        <a href="{{ route('projects.detail', $project->id) }}">{{ $project->name }}</a>
+                                    </h5>
+                                    <p>{{ $project->category }}</p>
                                 </div>
-                            </li>
+                            </div>
+                        </li>
                         @endforeach
 
 
@@ -571,123 +532,9 @@
     </section>
     <!-- END WORK  -->
 
-    <!-- START SECTION BLOG -->
-    <section id="blog" class="pb_70">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-9 text-center">
-                    <div class="heading_s1 animation" data-animation="fadeInUp" data-animation-delay="0.02s">
-                        <h2>My Letest Blog</h2>
-                    </div>
-                    <p class="animation" data-animation="fadeInUp" data-animation-delay="0.03s">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-                        blandit massa enim. Nullam id varius nunc id varius nunc.
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="clearfix small_divider"></div>
-                </div>
-            </div>
-            <div class="row justify-content-center animation" data-animation="fadeInUp" data-animation-delay="0.04s">
-                <div class="col-lg-4 col-md-6">
-                    <div class="blog_post blog_style2">
-                        <div class="blog_img">
-                            <a href="#">
-                                <img src="template/assets/images/blog_small_img1.jpg" alt="blog_small_img1" />
-                            </a>
-                        </div>
-                        <div class="blog_content">
-                            <div class="blog_text">
-                                <div class="post_category"><a href="#">UI/UX Design</a></div>
-                                <h5 class="blog_title">
-                                    <a href="#">Look Up At The Innovative Ways Team Work </a>
-                                </h5>
-                                <ul class="list_none blog_meta">
-                                    <li>
-                                        <a href="#"><i class="ion-calendar"></i>April 14, 2018</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="ion-chatboxes"></i>2 Comment</a>
-                                    </li>
-                                </ul>
-                                <p>
-                                    If you are going to use a passage of Lorem Ipsum, you need
-                                    to be sure there isn't anything embarrassing hidden in the
-                                    middle of text
-                                </p>
-                                <a href="#" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="blog_post blog_style2">
-                        <div class="blog_img">
-                            <a href="#">
-                                <img src="template/assets/images/blog_small_img2.jpg" alt="blog_small_img2" />
-                            </a>
-                        </div>
-                        <div class="blog_content">
-                            <div class="blog_text">
-                                <div class="post_category"><a href="#">Branding</a></div>
-                                <h5 class="blog_title">
-                                    <a href="#">How To Create A Website For Your Business?</a>
-                                </h5>
-                                <ul class="list_none blog_meta">
-                                    <li>
-                                        <a href="#"><i class="ion-calendar"></i>April 14, 2018</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="ion-chatboxes"></i>2 Comment</a>
-                                    </li>
-                                </ul>
-                                <p>
-                                    Ipsum generators on the Internet tend to repeat predefined
-                                    chunks as necessary, making this the first true generator on
-                                    the Internet.
-                                </p>
-                                <a href="#" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="blog_post blog_style2">
-                        <div class="blog_img">
-                            <a href="#">
-                                <img src="template/assets/images/blog_small_img3.jpg" alt="blog_small_img3" />
-                            </a>
-                        </div>
-                        <div class="blog_content">
-                            <div class="blog_text">
-                                <div class="post_category"><a href="#">Developing</a></div>
-                                <h5 class="blog_title">
-                                    <a href="#">How To Perfect You Get Free expensive Directories</a>
-                                </h5>
-                                <ul class="list_none blog_meta">
-                                    <li>
-                                        <a href="#"><i class="ion-calendar"></i>April 14, 2018</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"><i class="ion-chatboxes"></i>2 Comment</a>
-                                    </li>
-                                </ul>
-                                <p>
-                                    It uses a dictionary of over combined with a handful of
-                                    model sentence structures, to generate Lorem Ipsum which
-                                    looks reasonable
-                                </p>
-                                <a href="#" class="read_more">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END SECTION BLOG -->
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.633256248452!2d106.82330977529178!3d-6.311815793677485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ede43a4004e3%3A0x1a12cbf7326c6dd1!2sAndalan%20Rereka%20Consultindo.%20PT!5e0!3m2!1sid!2sid!4v1742264792268!5m2!1sid!2sid" style="border:0; width: 100%; height: 480px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+
 
     <!-- START SECTION CONTACT -->
     <section id="contact" class="bg-light">
@@ -773,66 +620,62 @@
     <!-- START SECTION CONTACT -->
 
     <!-- START FOOTER SECTION -->
-    <footer class="footer_dark bg_black4">
-        <div class="top_footer small_pb">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-6 col-lg-8 col-md-9 text-center">
-                        <div class="footer_logo">
-                            <a href="index.html"><img alt="logo" src="template/assets/images/logo_white.png" /></a>
-                        </div>
-                        <h6 class="widget_title pt-3">Subscribe Our Newsletter</h6>
-                        <div class="newsletter_form newslattter_small">
-                            <form>
-                                <input type="text" required="" placeholder="Enter Email Address" />
-                                <button type="submit" title="Subscribe" class="btn btn-default rounded-0" name="submit" value="Submit">
-                                    subscribe
-                                </button>
-                            </form>
-                        </div>
-                        <ul class="list_none footer_link text-center footer_nav">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Experience</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                        </ul>
-                        <ul class="list_none social_icons social_white pt-4">
-                            <li>
-                                <a href="#"><i class="ion-social-facebook"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ion-social-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ion-social-googleplus"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ion-social-youtube-outline"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="ion-social-instagram-outline"></i></a>
-                            </li>
-                        </ul>
-                    </div>
+    <!-- Footer -->
+    <footer class="text-lg-start bg-body-tertiary text-light" style="background-color: #080a20">
+        <!-- Social Media Section -->
+        <section class="container d-flex justify-content-between p-3 border-bottom align-items-center  mb-4">
+            <div class="d-none d-lg-block mt-2">Get connected with us on social networks:</div>
+            <div>
+                <a href="#" class="me-3 text-light"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="me-3 text-light"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="me-3 text-light"><i class="fab fa-google"></i></a>
+                <a href="#" class="me-3 text-light"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="me-3 text-light"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-light"><i class="fab fa-github"></i></a>
+            </div>
+        </section>
+
+        <!-- Links Section -->
+        <section class="container text-md-start py-4">
+            <div class="row">
+                <div class="col-md-5 col-lg-5 mb-3">
+                    <h6 class="text-uppercase fw-bold text-white"><i class="fas fa-gem me-2"></i>Company Name</h6>
+                    <p class="text-light">Here you can use rows and columns to organize your footer content.</p>
+                </div>
+
+                <div class="col-md-2 col-lg-2 mb-3">
+                    <h6 class="text-uppercase fw-bold text-white">Products</h6>
+                    <p><a href="#" class="text-light">Angular</a></p>
+                    <p><a href="#" class="text-light">React</a></p>
+                    <p><a href="#" class="text-light">Vue</a></p>
+                    <p><a href="#" class="text-light">Laravel</a></p>
+                </div>
+
+                <div class="col-md-2 col-lg-2 mb-3">
+                    <h6 class="text-uppercase fw-bold text-white">Useful links</h6>
+                    <p><a href="#" class="text-light">Pricing</a></p>
+                    <p><a href="#" class="text-light">Settings</a></p>
+                    <p><a href="#" class="text-light">Orders</a></p>
+                    <p><a href="#" class="text-light">Help</a></p>
+                </div>
+
+                <div class="col-md-3 col-lg-3">
+                    <h6 class="text-uppercase fw-bold text-white">Contact</h6>
+                    <p class="text-light"><i class="fas fa-home me-2"></i> New York, NY 10012, US</p>
+                    <p class="text-light"><i class="fas fa-envelope me-2"></i> info@example.com</p>
+                    <p class="text-light"><i class="fas fa-phone me-2"></i> +01 234 567 88</p>
+                    <p class="text-light"><i class="fas fa-print me-2"></i> +01 234 567 89</p>
                 </div>
             </div>
-        </div>
-        <div class="bottom_footer bg_black2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <p class="copyright m-0 text-center">
-                            © 2019 All Rights Reserved By
-                            <a href="#" class="text_default">Bestwebcreator</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+
+        </section>
+
+        <!-- Copyright -->
+        <div class="text-center p-3 text-light">
+            © 2025 Copyright:
+            <a class="text-light fw-bold" href="#">AndalanRC.com</a>
         </div>
     </footer>
-    <!-- END FOOTER SECTION -->
 
     <a href="#" class="scrollup" style="display: none"><i class="ion-ios-arrow-up"></i></a>
 
