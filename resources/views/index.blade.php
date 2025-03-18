@@ -443,9 +443,9 @@
                 <div class="col-md-12 text-center">
                     <ul class="list_none grid_filter animation" data-animation="fadeInUp" data-animation-delay="0.04s">
                         <li><a href="#" class="current" data-filter="*">all</a></li>
-                        <li><a href="#" data-filter=".branding">Branding</a></li>
-                        <li><a href="#" data-filter=".web-design">Web Design</a></li>
-                        <li><a href="#" data-filter=".development">Development</a></li>
+                        @foreach($categories as $category)
+                            <li><a href="#" data-filter=".{{ $category->slug }}">{{ $category->name }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

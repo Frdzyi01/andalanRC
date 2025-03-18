@@ -24,3 +24,8 @@ Route::post('/projects/save', [App\Http\Controllers\ProjectController::class, 's
 Route::get('/projects/{id}', [App\Http\Controllers\ProjectController::class, 'getProject']);
 Route::delete('/projects/{id}', [App\Http\Controllers\ProjectController::class, 'deleteData'])->name('projects.delete');
 Route::get('/projects/detail/{id}', [App\Http\Controllers\ProjectController::class, 'detailProject'])->name('projects.detail');
+
+Route::get('/setting/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('setting.categories');
+Route::get('/categories/data', [App\Http\Controllers\CategoryController::class, 'getData'])->name('categories.data');
+Route::post('/categories/save', [App\Http\Controllers\CategoryController::class, 'saveData'])->name('categories.save');
+Route::get('/categories/list', [App\Http\Controllers\CategoryController::class, 'listData'])->name('categories.list');
