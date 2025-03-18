@@ -17,7 +17,6 @@
             <table class="table table-bordered" id="projectsTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Name</th>
                         <th>Client</th>
                         <th>Date</th>
@@ -76,8 +75,10 @@
                                 <input type="url" class="form-control" id="link" name="link">
                             </div>
                             <div class="form-group">
-                                <label for="image">Project Image <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control-file" id="image" name="image" required>
+                                <label for="image">Project Images <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control-file" id="images" name="images[]" multiple required>
+                                
+                                <div id="fileList" class="d-flex flex-wrap mt-2"></div>
                             </div>
                         </div>
                     </div>
@@ -136,8 +137,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_image">Project Image</label>
-                                <input type="file" class="form-control-file" id="edit_image" name="image">
-                                <small id="currentImage"></small>
+                                <input type="file" class="form-control-file" id="edit_image" name="images[]" multiple>
+
+                                <div id="editFileList" class="d-flex flex-wrap mt-2"></div>
                             </div>
                         </div>
                     </div>
@@ -177,7 +179,6 @@
             autoWidth: false,
             dom: '<"row"<"col-md-6"l><"col-md-6"f>>t<"row"<"col-md-6"i><"col-md-6"p>>',
             columns: [
-                { data: 'image', name: 'image' },
                 { data: 'name', name: 'name' },
                 { data: 'client', name: 'client' },
                 { data: 'date', name: 'date' },
@@ -203,11 +204,168 @@
             $('#addProjectModal').modal('show');
         });
 
+        let selectedFiles = new DataTransfer();
+
+        document.getElementById('images').addEventListener('change', function (event) {
+            let input = document.getElementById('images');
+            let newFiles = Array.from(input.files);
+
+            newFiles.forEach(file => {
+                selectedFiles.items.add(file);
+            });
+
+            input.files = selectedFiles.files;
+
+            refreshFileList();
+        });
+
+        function removeFile(index) {
+            selectedFiles.items.remove(index);
+
+            let input = document.getElementById('images');
+            input.files = selectedFiles.files;
+
+            refreshFileList();
+        }
+
+        function refreshFileList() {
+            let fileList = document.getElementById('fileList');
+            fileList.innerHTML = "";
+
+            for (let i = 0; i < selectedFiles.files.length; i++) {
+                let file = selectedFiles.files[i];
+                let reader = new FileReader();
+
+                reader.onload = function (e) {
+                    let listItem = document.createElement('div');
+                    listItem.classList.add('image-preview');
+                    listItem.setAttribute('data-index', i);
+
+                    listItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview" width="80" height="80" class="mr-2">
+                        <button type="button" class="remove-new-image" data-index="${i}">❌</button>
+                    `;
+
+                    fileList.appendChild(listItem);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('remove-new-image')) {
+                let index = event.target.getAttribute('data-index');
+                removeFile(index);
+            }
+        });
+
+        // EDIT
+        let selectedEditFiles = new DataTransfer();
+        let removedImages = [];
+
+        function loadExistingImages(images) {
+            let fileList = $('#editFileList');
+            fileList.html("");
+
+            images.forEach((image, index) => {
+                let listItem = $(`
+                    <div class="image-preview" data-type="old" data-index="${index}">
+                        <img src="${image.url}" alt="Project Image">
+                        <button type="button" class="remove-image" data-index="${index}">❌</button>
+                    </div>
+                `);
+                fileList.append(listItem);
+            });
+        }
+
+        $('#edit_image').on('change', function (e) {
+            let files = e.target.files;
+
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                selectedEditFiles.items.add(file); // Tambahkan ke DataTransfer
+
+                let index = selectedEditFiles.items.length - 1; // Index dari file baru
+                let reader = new FileReader();
+
+                reader.onload = function (event) {
+                    let listItem = $(`
+                        <div class="image-preview" data-index="${index}" data-type="new">
+                            <img src="${event.target.result}" alt="New Image" width="100">
+                            <button type="button" class="remove-image" data-index="${index}" data-type="new">❌</button>
+                        </div>
+                    `);
+                    $('#editFileList').append(listItem);
+                };
+
+                reader.readAsDataURL(file);
+            }
+
+            // Set ulang input file dengan data baru
+            $('#edit_image')[0].files = selectedEditFiles.files;
+        });
+
+        $(document).on('click', '.remove-image', function () {
+            let type = $(this).data('type');
+
+            if (type === 'old') {
+                let imageId = $(this).data('id');
+                if (imageId) {
+                    removedImages.push(imageId); // Simpan ID gambar lama yang dihapus
+                }
+            } else if (type === 'new') {
+                let index = $(this).data('index');
+                selectedEditFiles.items.remove(index); // Hapus file dari DataTransfer
+                $('#edit_image')[0].files = selectedEditFiles.files; // Update input file
+            }
+
+            $(this).closest('.image-preview').remove(); // Hapus dari tampilan
+        });
+
+        function openEditModal(project) {
+            $('#edit_project_id').val(project.id);
+            $('#edit_name').val(project.name);
+            $('#edit_client').val(project.client);
+            $('#edit_date').val(project.date);
+            $('#edit_category').val(project.category.split(' ')).trigger('change');
+            $('#edit_link').val(project.link);
+            $('#edit_description').val(project.description);
+
+            removedImages = []; // Reset daftar gambar yang akan dihapus
+            selectedEditFiles = new DataTransfer(); // Reset file baru
+            $('#edit_image')[0].files = selectedEditFiles.files;
+
+            $('#editFileList').html(""); // Kosongkan preview lama
+
+            // **Tampilkan gambar lama**
+            project.images.forEach((image) => {
+                let listItem = $(`
+                    <div class="image-preview" data-id="${image.id}" data-type="old">
+                        <img src="${image.url}" alt="Project Image" width="100">
+                        <button type="button" class="remove-image" data-id="${image.id}" data-type="old">❌</button>
+                    </div>
+                `);
+                $('#editFileList').append(listItem);
+            });
+
+            $('#editProjectModal').modal('show');
+        }
+
+
+
         // Submit Add Project Form
         $(document).on('submit', '#addProjectForm', function(e) {
             e.preventDefault();
+
             let formData = new FormData(this);
-            
+
+            // Tambahkan proteksi agar tidak double submit
+            if ($(this).data('processing')) return;
+            $(this).data('processing', true);
+
+            console.log("Mengirim request...");
+
             $.ajax({
                 url: '{{ route("projects.save") }}',
                 type: 'POST',
@@ -216,12 +374,19 @@
                 processData: false,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 success: function(response) {
+                    console.log("Response diterima:", response);
+
                     $('#addProjectModal').modal('hide');
                     $('#addProjectForm')[0].reset();
                     $('#category').val(null).trigger('change'); // Reset select2
                     table.ajax.reload();
 
-                    // SweetAlert2 Toast Notification
+                    selectedFiles = new DataTransfer(); 
+                    $('#images')[0].files = selectedFiles.files;
+
+                    // Reset tampilan daftar file
+                    refreshFileList();
+
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
@@ -230,8 +395,13 @@
                         showConfirmButton: false,
                         timer: 3000
                     });
+
+                    // Reset flag agar bisa submit lagi setelah berhasil
+                    $('#addProjectForm').data('processing', false);
                 },
-                error: function() {
+                error: function(xhr) {
+                    console.log("Error:", xhr.responseText);
+
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
@@ -240,6 +410,9 @@
                         showConfirmButton: false,
                         timer: 3000
                     });
+
+                    // Reset flag agar bisa submit lagi setelah error
+                    $('#addProjectForm').data('processing', false);
                 }
             });
         });
@@ -247,9 +420,13 @@
         // Submit Edit Project Form
         $(document).on('submit', '#editProjectForm', function(e) {
             e.preventDefault();
+            
             let formData = new FormData(this);
             let projectId = $('#edit_project_id').val();
-            
+
+            // Kirim daftar gambar lama yang dihapus
+            formData.append('removed_images', JSON.stringify(removedImages));
+
             $.ajax({
                 url: '{{ route("projects.save") }}',
                 type: 'POST',
@@ -263,7 +440,10 @@
                     $('#edit_category').val(null).trigger('change'); // Reset select2
                     table.ajax.reload();
 
-                    // SweetAlert2 Toast Notification
+                    selectedEditFiles = new DataTransfer(); 
+                    $('#edit_image')[0].files = selectedEditFiles.files;
+                    $('#editFileList').html(""); // Hapus preview gambar setelah submit
+
                     Swal.fire({
                         toast: true,
                         position: 'top-end',
@@ -337,27 +517,26 @@
                 url: `/projects/${projectId}`,
                 type: 'GET',
                 success: function(response) {
-                    $('#edit_project_id').val(response.id);
-                    $('#edit_name').val(response.name);
-                    $('#edit_client').val(response.client);
-                    $('#edit_date').val(response.date);
-                    $('#edit_category').val(response.category.split(' ')).trigger('change');
-                    $('#edit_link').val(response.link);
-                    $('#edit_description').val(response.description);
-
-                    if (response.image) {
-                        $('#currentImage').html(`<img src="/storage/${response.image}" width="50">`);
+                    if (response.success) {
+                        openEditModal(response.project);
                     } else {
-                        $('#currentImage').html('');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to load project data'
+                        });
                     }
-
-                    $('#editProjectModal').modal('show');
                 },
                 error: function() {
-                    alert('Error fetching project data.');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong!'
+                    });
                 }
             });
         });
+
     });
 </script>
 @endsection

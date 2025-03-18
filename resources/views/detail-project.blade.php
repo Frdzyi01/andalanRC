@@ -59,7 +59,7 @@
     <header class="header_wrap fixed-top dark_skin hover_menu_style3 transparent-header">
         <div class="container">
             <nav class="navbar navbar-expand-lg">
-                <a class="navbar-brand page-scroll" href="index.html#home_section">
+                <a class="navbar-brand page-scroll" href="{{url('/')}}#home_section">
                     <img class="logo_light" src="{{asset('template/assets/images/logo_white.png')}}" alt="logo" />
                     <img class="logo_dark" src="{{asset('template/assets/images/logo_dark.png')}}" alt="logo" />
                     <img class="logo_default" src="{{asset('template/assets/images/logo_dark.png')}}" alt="logo" />
@@ -75,25 +75,25 @@
                     </a>
                     <ul class="navbar-nav">
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#home_section">Home</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#home_section">Home</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#about">About</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#about">About</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#services">Services</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#services">Services</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#portfolio">Portfolio</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#portfolio">Portfolio</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#experience">Experience</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#experience">Experience</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#blog">blog</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#blog">blog</a>
                         </li>
                         <li>
-                            <a class="nav-link page-scroll" href="index.html#contact">contact</a>
+                            <a class="nav-link page-scroll" href="{{url('/')}}#contact">contact</a>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle active nav-link" href="#" data-toggle="dropdown">Pages</a>
@@ -147,7 +147,7 @@
                 <div class="col-sm-6">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Project Detail</li>
                         </ol>
                     </nav>
@@ -162,39 +162,47 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="carousel_slider owl-carousel owl-theme" data-margin="20" data-dots="false" data-loop="true" data-nav="true" data-autoplay="true" data-items="1">
-                        <div class="item">
-                            <img src="{{asset('template/assets/images/portfolio_img1.jpg')}}" alt="portfolio_img1" />
-                        </div>
-                        <div class="item">
-                            <img src="{{asset('template/assets/images/portfolio_img2.jpg')}}" alt="portfolio_img2" />
-                        </div>
-                        <div class="item">
-                            <img src="{{asset('template/assets/images/portfolio_img3.jpg')}}" alt="portfolio_img3" />
-                        </div>
+                    <div class="carousel_slider owl-carousel owl-theme"
+                        data-margin="20" data-dots="false" data-loop="true" data-nav="true" data-autoplay="true" data-items="1">
+                        
+                        @if($project->images->isNotEmpty()) 
+                            @foreach($project->images as $image)
+                                <div class="item">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $project->name }}" />
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="item">
+                                <img src="{{ asset('template/assets/images/portfolio_img1.jpg') }}" alt="No Image" />
+                            </div>
+                        @endif
+
                     </div>
                 </div>
+
                 <div class="col-lg-4">
                     <ul class="list_none portfolio_info_box">
-                        <li><span class="text-uppercase">Nama Project</span>Martyn Vorm</li>
-                        <li><span class="text-uppercase">Date</span>Aprile 2018</li>
-                        <li><span class="text-uppercase">Category</span>Design, Branding</li>
-                        <li><span class="text-uppercase">Tanggal Project</span>12 maret 2023</li>
+                        <li><span class="text-uppercase">Nama Project</span> {{ $project->name }}</li>
+                        <li><span class="text-uppercase">Client</span> {{ $project->client }}</li>
+                        <li><span class="text-uppercase">Date</span> {{ \Carbon\Carbon::parse($project->date)->format('d M Y') }}</li>
+                        <li><span class="text-uppercase">Category</span> {{ str_replace(' ', ', ', $project->category) }}</li>
                     </ul>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-12">
                     <div class="pf_content">
                         <div class="heading_s1">
-                            <h2>Judul Project</h2>
+                            <h2>{{ $project->name }}</h2>
                         </div>
-                        <p>DESKRIPSI PROJECT Nam eget neque pellentesque efficitur neque at, ornare orci. Vestibulum ligula orci volutpat id aliquet eget, consectetur eget ante. Duis pharetra for nec rhoncus felis sagittis nec amet ultricies lorem.</p>
+                        <p>{{ $project->description }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- END SECTION PORTFOLIO DETAIL -->
 
     <!-- START FOOTER SECTION -->
@@ -204,7 +212,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="footer_logo">
-                            <a href="index.html"><img alt="logo" src="{{asset('template/assets/images/logo_dark.png')}}" /></a>
+                            <a href="{{url('/')}}"><img alt="logo" src="{{asset('template/assets/images/logo_dark.png')}}" /></a>
                         </div>
                         <h6 class="widget_title pt-3">
                             Subscribe Our Newsletter

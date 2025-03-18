@@ -455,88 +455,41 @@
                         <!-- <li class="grid-sizer"></li> -->
                         <!-- START PORTFOLIO ITEM -->
                         @foreach($projects as $project)
-                        <li class="grid_item {{ strtolower($project->category) }}">
-                            <div class="portfolio_item">
-                                <a href="#" class="image_link">
-                                    <img src="{{ asset('storage/' . $project->image) }}" alt="image" style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
-                                </a>
-                                <div class="portfolio_content">
-                                    <div class="link_container">
-                                        <a href="{{ asset('storage/' . $project->image) }}" class="image_popup"><i class="ion-image"></i></a>
-                                        <a href="#" data-toggle="modal" data-target="#pr_modal_{{ $project->id }}"><i class="ion-plus"></i></a>
+                            <li class="grid_item {{ strtolower($project->category) }}">
+                                <div class="portfolio_item">
+                                    <a href="#" class="image_link">
+                                        @if($project->images->isNotEmpty()) 
+                                            <img src="{{ asset('storage/' . $project->images->first()->image_path) }}" alt="image"
+                                                style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
+                                        @else
+                                            <img src="{{ asset('template/assets/images/portfolio_item_small1.jpg') }}" alt="No Image"
+                                                style="width: 320px; height: 200px; object-fit: cover; border-radius: 5px;">
+                                        @endif
+                                    </a>
+                                    <div class="portfolio_content">
+                                        <div class="link_container">
+                                            @if($project->images->isNotEmpty())
+                                                <a href="{{ asset('storage/' . $project->images->first()->image_path) }}" class="image_popup">
+                                                    <i class="ion-image"></i>
+                                                </a>
+                                            @endif
+                                            <a href="{{ route('projects.detail', $project->id) }}"><i class="ion-plus"></i></a>
+                                        </div>
+                                        <h5>
+                                            <a href="{{ route('projects.detail', $project->id) }}">{{ $project->name }}</a>
+                                        </h5>
+                                        <p>{{ $project->category }}</p>
                                     </div>
-                                    <h5>
-                                        <a href="#" data-toggle="modal" data-target="#pr_modal_{{ $project->id }}">{{ $project->name }}</a>
-                                    </h5>
-                                    <p>{{ $project->category }}</p>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
                         @endforeach
+
+
                         <!-- END PORTFOLIO ITEM -->
                     </ul>
                 </div>
             </div>
         </div>
-        @foreach($projects as $project)
-        <div class="portfolio_modal modal fade" id="pr_modal_{{ $project->id }}">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <div class="carousel_slider owl-carousel owl-theme" data-margin="20" data-dots="false" data-loop="true" data-nav="true" data-autoplay="true" data-items="1">
-                                    <div class="item">
-                                        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->name }}" />
-                                    </div>
-                                    {{-- Kalau nanti ada lebih dari 1 gambar, tambahkan looping di sini --}}
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <ul class="list_none portfolio_info_box">
-                                    <li>
-                                        <span class="text-uppercase">CLIENT</span> {{ $project->client }}
-                                    </li>
-                                    <li><span class="text-uppercase">Date</span>
-                                        {{ \Carbon\Carbon::parse($project->date)->format('F Y') }}</li>
-                                    <li>
-                                        <span class="text-uppercase">Category</span> {{ $project->category }}
-                                    </li>
-                                    <li>
-                                        <span class="text-uppercase">PROJECT link</span>
-                                        <a href="{{ $project->link }}" target="_blank">{{ $project->link }}</a>
-                                    </li>
-                                    <li>
-                                        <span class="text-uppercase">SHARE </span>
-                                        <ul class="list_none social_icons border_social rounded_social">
-                                            <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                            <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                            <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                                            <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                            <li><a href="#"><i class="ion-social-pinterest"></i></a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="pf_content">
-                                    <div class="heading_s1">
-                                        <h2>{{ $project->name }}</h2>
-                                    </div>
-                                    <p>{{ $project->description }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endforeach
 
     </section>
     <!-- END SECTION PORTFOLIO -->

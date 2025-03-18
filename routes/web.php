@@ -23,3 +23,4 @@ Route::get('/projects/data', [App\Http\Controllers\ProjectController::class, 'ge
 Route::post('/projects/save', [App\Http\Controllers\ProjectController::class, 'saveData'])->name('projects.save');
 Route::get('/projects/{id}', [App\Http\Controllers\ProjectController::class, 'getProject']);
 Route::delete('/projects/{id}', [App\Http\Controllers\ProjectController::class, 'deleteData'])->name('projects.delete');
+Route::get('/projects/detail/{id}', [App\Http\Controllers\ProjectController::class, 'detailProject'])->name('projects.detail');
